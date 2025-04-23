@@ -5,7 +5,7 @@
 
 Procedural macro to automatically generate getters and setters for struct fields in Rust, with fine-grained control over behavior.
 
-## ✨ Features
+## Features
 
 - Generate **getters** that return either **references** or **copies**, depending on your needs.
 - Automatically generate **setters** for fields.
@@ -15,7 +15,7 @@ Procedural macro to automatically generate getters and setters for struct fields
 
 ---
 
-## 📦 Installation
+## Installation
 
 Add the following to your `Cargo.toml`:
 
@@ -73,7 +73,7 @@ impl Example {
 }
 ```
 
-## 🧩 Attributes
+## Attributes
 
 | Attribute        | Description |
 |:-----------------|:------------|
@@ -86,14 +86,14 @@ impl Example {
 
 ---
 
-## 🚨 Limitations
+## Limitations
 
 - Only named fields (`struct Foo { x: T }`) are supported — **tuple structs** and **unit structs** are not yet supported.
 - No automatic validation that `#[get_copy]` fields are `Copy` yet (coming soon).
 
 ---
 
-## 🚀 Planned Features
+## Planned Features
 
 - Optional `#[inline(always)]` on generated methods.
 - Automatic validation for `Copy` types when using `#[get_copy]`.
@@ -102,7 +102,7 @@ impl Example {
 
 ---
 
-## 👥 Contributing
+## Contributing
 
 Pull requests, issues, and suggestions are welcome!
 
@@ -110,12 +110,12 @@ If you find a bug or would like to request a feature, feel free to open an issue
 
 ---
 
-## 📜 License
+## License
 
 This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-## 📢 Acknowledgments
+## Acknowledgments
 
 Built with ❤️ by Nicolas Bird von Eyben.
