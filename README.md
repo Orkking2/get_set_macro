@@ -118,4 +118,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Acknowledgments
 
-Built with ❤️ by Nicolas Bird von Eyben.
+I did this.
