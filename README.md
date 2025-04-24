@@ -44,7 +44,7 @@ struct Example {
     #[gsflag(get_copy)]
     age: u32,
 
-    #[gsflag(get(rename = "city_ref"), get_copy(rename = "city_copy"), set(rename = "set_city" /* same as default */))]
+    #[gsflag(get(rename = "city_ref"), set(rename = "set_city" /* same as default */))]
     city: String,
 }
 ```
@@ -66,9 +66,6 @@ impl Example {
     }
     city_ref(&self) -> &String {
         &self.city
-    }
-    city_copy(&self) -> String {
-        self.city
     }
     set_city(&mut self, new_city: String) {
         self.city = new_city;
