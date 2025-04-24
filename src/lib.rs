@@ -13,25 +13,25 @@ pub fn get_set(_attr: TokenStream, item: TokenStream) -> TokenStream {
         .into()
 }
 
-// #[test]
-// fn readme_debug() {
-//     let quote = quote! {
-//         #[get_set]
-//         struct Example {
-//             #[gsflags(get)]
-//             name: String,
+#[test]
+fn readme_debug() {
+    let quote = quote! {
+        // #[get_set] Removed by compiler
+        struct Example {
+            #[gsflags(get)]
+            name: String,
 
-//             #[gsflags(get_copy)]
-//             age: u32,
+            #[gsflags(get_copy)]
+            age: u32,
 
-//             #[gsflags(get(rename = "city_ref"), get_copy(rename = "city_copy"), set(rename = "set_city" /* same as default */))]
-//             city: String,
-//         }
-//     };
+            #[gsflags(get(noinline, rename = "city_ref"), set(rename = "set_city" /* same as default */))]
+            city: String,
+        }
+    };
 
-//     let input = syn::parse2::<syn::ItemStruct>(quote).unwrap();
+    let input = syn::parse2::<syn::ItemStruct>(quote).unwrap();
 
-//     let parsed = parser::expand_get_set(input).unwrap_or_else(syn::Error::into_compile_error);
+    let parsed = parser::expand_get_set(input).unwrap_or_else(syn::Error::into_compile_error);
 
-//     println!("parsed: {parsed}");
-// }
+    println!("parsed: {parsed}");
+}

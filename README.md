@@ -10,6 +10,7 @@ Procedural macro to automatically generate getters and setters for struct fields
 - Generate **getters** that return either **references** or **copies**, depending on your needs.
 - Automatically generate **setters** for fields.
 - Customize method names for getters and setters.
+- Choose to have a getter or setter be not inlined with `noinline`
 - Return proper compiler errors instead of panicking.
 - Lightweight and minimal dependencies.
 
@@ -34,7 +35,7 @@ Import the macro:
 use get_set_macro::get_set;
 ```
 
-Apply it to a struct:
+Apply it to a struct: (see [`tests/ui/ok_readme.rs`](./tests/ui/ok_readme.rs))
 ```rust
 #[get_set]
 struct Example {
@@ -44,7 +45,7 @@ struct Example {
     #[gsflag(get_copy)]
     age: u32,
 
-    #[gsflag(get(rename = "city_ref"), set(rename = "set_city" /* same as default */))]
+    #[gsflag(get(noinline, rename = "city_ref"), set(rename = "set_city"))]
     city: String,
 }
 
@@ -82,14 +83,11 @@ fn main() {
 ## Limitations
 
 - Only named fields (`struct Foo { x: T }`) are supported — **tuple structs** and **unit structs** are not yet supported.
-- No automatic validation that `#[get_copy]` fields are `Copy` yet (coming soon).
 
 ---
 
 ## Planned Features
 
-- Optional `#[inline(always)]` on generated methods.
-- Automatic validation for `Copy` types when using `#[get_copy]`.
 - More granular control over visibility (e.g., private vs public methods).
 - Builder pattern support.
 
