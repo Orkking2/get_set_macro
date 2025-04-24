@@ -8,7 +8,7 @@ struct Example {
     #[gsflags(get_copy)]
     age: u32,
 
-    #[gsflags(get(rename = "city_ref"), set(rename = "set_city" /* same as default */))]
+    #[gsflags(get(inline_always, rename = "city_ref"), set(rename = "set_city" /* same as default */))]
     city: String,
 }
 

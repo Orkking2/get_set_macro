@@ -45,7 +45,7 @@ struct Example {
     #[gsflag(get_copy)]
     age: u32,
 
-    #[gsflag(get(noinline, rename = "city_ref"), set(rename = "set_city"))]
+    #[gsflag(get(inline_always, rename = "city_ref"), set(rename = "set_city"))]
     city: String,
 }
 
@@ -75,7 +75,7 @@ fn main() {
 | `#[get_copy]` | Generate a getter that returns a **copy**. (Use only with `Copy` types.) |
 | `#[set]` | Generate a setter that sets a new value. |
 | `rename = "..."` | Customize the method name (e.g., `#[gsflags(get(rename = "fetch_name"))]`). |
-| `noinline` | Choose to have a getter or setter not inlined (e.g. `#[gsflags(get(noinline, rename = "not_inlined_get"))]`). |
+| `inline(\|_always\|_never)` | Choose to have a getter or setter not inlined (e.g. `#[gsflags(get(inline_always, rename = "not_inlined_get"))]`). |
 
 > **Note:** Only structs with **named fields** are currently supported.
 

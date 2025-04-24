@@ -14,7 +14,7 @@ pub fn get_set(_attr: TokenStream, item: TokenStream) -> TokenStream {
 }
 
 #[test]
-fn readme_debug() {
+fn debug() {
     let quote = quote! {
         // #[get_set] Removed by compiler
         struct Example {
@@ -24,7 +24,7 @@ fn readme_debug() {
             #[gsflags(get_copy)]
             age: u32,
 
-            #[gsflags(get(noinline, rename = "city_ref"), set(rename = "set_city" /* same as default */))]
+            #[gsflags(get(inline_always, vis = "pub(crate)", rename = "city_ref"), set(rename = "set_city" /* same as default */))]
             city: String,
         }
     };
