@@ -71,10 +71,10 @@ fn main() {
 
 | Attribute        | Description |
 |:-----------------|:------------|
-| `#[get]`         | Generate a getter that returns a **reference**. |
-| `#[get_copy]`     | Generate a getter that returns a **copy**. (Use only with `Copy` types.) |
-| `#[set]`         | Generate a setter that sets a new value. |
-| `rename = "..."`    | Customize the method name (e.g., `#[get(rename = "fetch_name")]`). |
+| `#[get]` | Generate a getter that returns a **reference**. |
+| `#[get_copy]` | Generate a getter that returns a **copy**. (Use only with `Copy` types.) |
+| `#[set]` | Generate a setter that sets a new value. |
+| `rename = "..."` | Customize the method name (e.g., `#[get(rename = "fetch_name")]`). |
 | `noinline` | Choose to have a getter or setter not inlined. |
 
 > **Note:** Only structs with **named fields** are currently supported.
@@ -89,7 +89,6 @@ fn main() {
 
 ## Planned Features
 
-- More granular control over visibility (e.g., private vs public methods).
 - Builder pattern support.
 
 ---
