@@ -12,6 +12,7 @@ struct Example {
     city: String,
 }
 
+// Has functionality
 fn main() {
     let mut example = Example {
         name: "ExampleName".to_string(),

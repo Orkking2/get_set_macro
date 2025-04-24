@@ -47,29 +47,22 @@ struct Example {
     #[gsflag(get(rename = "city_ref"), set(rename = "set_city" /* same as default */))]
     city: String,
 }
-```
 
-Generates
-```rust
-struct Example {
-    name: String,
-    age: u32,
-    city: String,
-}
+// Has functionality
+fn main() {
+    let mut example = Example {
+        name: "ExampleName".to_string(),
+        age: 55,
+        city: "ExampleCity".to_string(),
+    };
 
-impl Example {
-    get_name(&self) -> &String {
-        &self.name
-    }
-    get_age(&self) -> u32 {
-        self.age
-    }
-    city_ref(&self) -> &String {
-        &self.city
-    }
-    set_city(&mut self, new_city: String) {
-        self.city = new_city;
-    }
+    assert_eq!("ExampleName", example.get_name().as_str());
+    assert_eq!(55, example.get_age());
+    assert_eq!("ExampleCity", example.city_ref().as_str());
+
+    example.set_city("NewCity".to_string());
+
+    assert_eq!("NewCity", example.city_ref().as_str());
 }
 ```
 
