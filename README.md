@@ -71,10 +71,11 @@ fn main() {
 
 | Attribute        | Description |
 |:-----------------|:------------|
-| `#[getr]`         | Generate a getter that returns a **reference**. |
+| `#[get]`         | Generate a getter that returns a **reference**. |
 | `#[get_copy]`     | Generate a getter that returns a **copy**. (Use only with `Copy` types.) |
-| `#[setr]`         | Generate a setter that sets a new value. |
-| `name = "..."`    | Customize the method name (e.g., `#[getr(name = "fetch_name")]`). |
+| `#[set]`         | Generate a setter that sets a new value. |
+| `rename = "..."`    | Customize the method name (e.g., `#[get(rename = "fetch_name")]`). |
+| `noinline` | Choose to have a getter or setter not inlined. |
 
 > **Note:** Only structs with **named fields** are currently supported.
 
