@@ -69,8 +69,8 @@ fn main() {
 
 ## Attributes
 
-| Attribute        | Description |
-|:-----------------|:------------|
+| Attribute | Description |
+|:-|:-|
 | `#[get]` | Generate a getter that returns a **reference**. |
 | `#[get_copy]` | Generate a getter that returns a **copy**. (Use only with `Copy` types.) |
 | `#[set]` | Generate a setter that sets a new value. |
