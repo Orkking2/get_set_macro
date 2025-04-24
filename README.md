@@ -38,13 +38,13 @@ Apply it to a struct:
 ```rust
 #[get_set]
 struct Example {
-    #[getr]
+    #[gsflag(get)]
     name: String,
 
-    #[get_copy]
+    #[gsflag(get_copy)]
     age: u32,
 
-    #[getr(name = "city_ref"), setr(name = "update_city")]
+    #[gsflag(get(rename = "city_ref"), get_copy(rename = "city_copy"), set(rename = "set_city" /* same as default */))]
     city: String,
 }
 ```
@@ -67,7 +67,10 @@ impl Example {
     city_ref(&self) -> &String {
         &self.city
     }
-    update_city(&mut self, new_city: String) {
+    city_copy(&self) -> String {
+        self.city
+    }
+    set_city(&mut self, new_city: String) {
         self.city = new_city;
     }
 }
