@@ -2,6 +2,14 @@
 name = "get_set_macro"
 version = "0.1.0"
 edition = "2021"
+authors = ["Nicolas Bird von Eyben <nicolas.bird.voneyben@gmail.com>"]
+description = "Procedural macro to generate customizable getters and setters in Rust"
+readme = "README.md"
+license = "MIT"
+repository = "https://github.com/Orkking2/get_set_macro"
+documentation = "https://docs.rs/get_set_macro"
+categories = ["development-tools::procedural-macro", "rust-patterns"]
+keywords = ["getter", "setter", "macro", "attribute", "accessor"]
 
 [lib]
 proc-macro = true

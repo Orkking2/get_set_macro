@@ -75,7 +75,7 @@ fn main() {
 | `#[get_copy]` | Generate a getter that returns a **copy**. (Use only with `Copy` types.) |
 | `#[set]` | Generate a setter that sets a new value. |
 | `rename = "..."` | Customize the method name (e.g., `#[gsflags(get(rename = "fetch_name"))]`). |
-| `inline(\|_always\|_never)` | Choose to have a getter or setter not inlined (e.g. `#[gsflags(get(inline_always, rename = "not_inlined_get"))]`). |
+| `inline(\|_always\|_never)` | Choose to have a getter or setter inlined and how (e.g. `#[gsflags(get(inline_always, rename = "always_inlined_get"))]`). |
 
 > **Note:** Only structs with **named fields** are currently supported.
 
