@@ -18,12 +18,7 @@ Procedural macro to automatically generate getters and setters for struct fields
 
 ## Installation
 
-Add the following to your `Cargo.toml`:
-
-```toml
-[dependencies]
-get_set_macro = "0.1"
-```
+Run `cargo add get_set_macro`.
 
 ---
 
