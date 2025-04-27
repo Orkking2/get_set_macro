@@ -85,7 +85,7 @@ fn main() {
 
 ## Limitations
 
-- Only named fields (`struct Foo { x: T }`) are supported — **tuple structs** and **unit structs** are not yet supported.
+- Only named fields (`struct Foo { x: T }`) are supported — **tuple structs** are not yet supported.
 
 ---
 
