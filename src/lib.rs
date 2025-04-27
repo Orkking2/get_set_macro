@@ -1,14 +1,20 @@
 use proc_macro::TokenStream;
 #[cfg(test)]
 use quote::quote;
-use syn::parse_macro_input;
+use syn::{parse_macro_input, punctuated::Punctuated, Meta, Token};
 
+mod enums;
 mod parser;
+mod props;
 
 #[proc_macro_attribute]
-pub fn get_set(_attr: TokenStream, item: TokenStream) -> TokenStream {
+pub fn get_set(attr: TokenStream, item: TokenStream) -> TokenStream {
+    let gs_attrs =
+        syn::parse::Parser::parse(Punctuated::<Meta, Token![,]>::parse_terminated, attr).ok();
+
     let input = parse_macro_input!(item as syn::ItemStruct);
-    parser::expand_get_set(input)
+
+    parser::expand_get_set(gs_attrs, input)
         .unwrap_or_else(syn::Error::into_compile_error)
         .into()
 }
@@ -31,7 +37,7 @@ fn debug() {
 
     let input = syn::parse2::<syn::ItemStruct>(quote).unwrap();
 
-    let parsed = parser::expand_get_set(input).unwrap_or_else(syn::Error::into_compile_error);
+    let parsed = parser::expand_get_set(None, input).unwrap_or_else(syn::Error::into_compile_error);
 
     println!("parsed: {parsed}");
 }

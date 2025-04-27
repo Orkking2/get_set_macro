@@ -74,8 +74,10 @@ fn main() {
 | `#[get]` | Generate a getter that returns a **reference**. |
 | `#[get_copy]` | Generate a getter that returns a **copy**. (Use only with `Copy` types.) |
 | `#[set]` | Generate a setter that sets a new value. |
-| `rename = "..."` | Customize the method name (e.g., `#[gsflags(get(rename = "fetch_name"))]`). |
+| `rename = "..."` | Customize the method name (e.g., `#[gsflags(get(rename = "fetch_{name}"))]`). |
 | `inline(\|_always\|_never)` | Choose to have a getter or setter inlined and how (e.g. `#[gsflags(get(inline_always, rename = "always_inlined_get"))]`). |
+| `#[set_get(`struct-wide settings`)]` | Applies get/set settings to all fields in the struct (ignores `rename`). |
+| `skip` | Skip `struct`-wide gs-settings for this field. |
 
 > **Note:** Only structs with **named fields** are currently supported.
 
@@ -89,7 +91,8 @@ fn main() {
 
 ## Planned Features
 
-
+- `#[accessor]` tag on fields (would be the same as `#[gsflags(get, set)]`)
+- Default tag(s) -- `#[get_set(all = "get")]` would be equivalent to `#[gsflags(get)]` on every field.
 
 ---
 
