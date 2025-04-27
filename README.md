@@ -86,8 +86,8 @@ fn main() {
 
 ## Planned Features
 
-- `#[accessor]` tag on fields (would be the same as `#[gsflags(get, set)]`)
-- Default tag(s) -- `#[get_set(all = "get")]` would be equivalent to `#[gsflags(get)]` on every field.
+- `accessor` tag on fields (`#[gsflags(accessor(...))]`would be the same as `#[gsflags(get(...), set(...))]`).
+- `default` tag changing the default behaviour. `#[get_set(default(...))]` or `#[gsflags(default(...))]` would change `get` into `get(...)` (ignoring `rename`).
 
 ---
 
