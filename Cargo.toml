@@ -1,6 +1,6 @@
 [package]
 name = "get_set_macro"
-version = "1.0.0"
+version = "1.0.1"
 edition = "2021"
 authors = ["Nicolas Bird von Eyben <nicolas.bird.voneyben@gmail.com>"]
 description = "Procedural macro to generate customizable getters and setters in Rust"
