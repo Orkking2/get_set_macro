@@ -1,5 +1,6 @@
 use std::{
     collections::HashSet,
+    hash::{Hash, Hasher},
     ops::{Deref, DerefMut},
 };
 
@@ -7,14 +8,28 @@ use crate::enums::{Inline, Kind};
 use proc_macro2::TokenStream;
 use syn::{Error, Expr, ExprLit, Ident, Lit, Meta, Type, Visibility};
 
-#[derive(Clone, PartialEq, Eq, Hash, Debug)]
+#[derive(Clone, Debug)]
 pub(crate) struct FuncProps {
+    pub(crate) vis: Visibility,
     pub(crate) kind: Kind,
-    // FuncProps must be unique (globally?) on `name`
-    // Decision: Leave to user; a HashSet on FuncProps's derived `Hash` is good enough
+    // Functions must be unique on their name, that is why equally nammed FuncProps compare equal.
+    // Global (always default name) functions collide with a default name getter/setter with specific settings,
+    // the one that is in the HashSet first wins (in our case the global functions always lose).
     pub(crate) name: Ident,
     pub(crate) inline: Inline,
-    pub(crate) vis: Visibility,
+}
+
+impl PartialEq for FuncProps {
+    fn eq(&self, other: &Self) -> bool {
+        self.name == other.name
+    }
+}
+impl Eq for FuncProps {}
+
+impl Hash for FuncProps {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        self.name.hash(state)
+    }
 }
 
 #[derive(Clone)]
@@ -24,8 +39,8 @@ pub(crate) struct OptFuncPropsWithKind {
 }
 
 impl OptFuncPropsWithKind {
-    pub(crate) fn build(self, field: &Ident) -> FuncProps {
-        self.optfuncprops.build(self.kind, field)
+    pub(crate) fn build_with_default_name(self, field: &Ident) -> FuncProps {
+        self.optfuncprops.build_with_default_name(self.kind, field)
     }
 }
 
@@ -79,6 +94,14 @@ impl OptFuncProps {
             inline: self.inline.unwrap_or_default(),
             vis: self.vis.unwrap_or(Visibility::Inherited),
             name: self.name.unwrap_or(kind.into_ident(field)),
+        }
+    }
+
+    pub(crate) fn build_with_default_name(self, kind: Kind, field: &Ident) -> FuncProps {
+        FuncProps {
+            kind,
+            name: kind.into_ident(field),
+            ..self.build(kind, field)
         }
     }
 }

@@ -2,10 +2,7 @@ use std::collections::{HashMap, HashSet};
 
 use proc_macro2::TokenStream;
 use quote::{format_ident, quote};
-use syn::{
-    punctuated::Punctuated, Error, Fields, Ident, ItemStruct, Meta, Result,
-    Token,
-};
+use syn::{punctuated::Punctuated, Error, Fields, Ident, ItemStruct, Meta, Result, Token};
 
 use crate::enums::Kind;
 use crate::props::{FieldProps, FuncProps, OptFuncProps, OptFuncPropsWithKind};
@@ -35,6 +32,8 @@ pub fn expand_get_set(
     let mut field_map: HashMap<Ident, FieldProps> = HashMap::new();
 
     for field in fields {
+        let field_ident = field.ident.clone().unwrap();
+
         let ref mut field_props =
             field_map
                 .entry(field.ident.clone().unwrap())
@@ -50,8 +49,6 @@ pub fn expand_get_set(
             match attr.meta {
                 // gsflags(get, set, get_copy(rename = "draft", inline_never, vis = "pub(crate)"))
                 syn::Meta::List(ref gs_flags) if gs_flags.path.is_ident("gsflags") => {
-                    let field_ident = field.ident.clone().unwrap();
-
                     remove_attrs.push(i);
 
                     // [get, set, get_copy(rename = "draft", inline_never, vis = "pub(crate)")]
@@ -68,14 +65,6 @@ pub fn expand_get_set(
                                 .build(gs_flag.try_into()?, &field_ident),
                         );
                     }
-
-                    if !field_props.all_skip {
-                        field_props.props.extend(
-                            all_func_props
-                                .iter()
-                                .map(|ofpwk| ofpwk.clone().build(&field_ident)),
-                        );
-                    }
                 }
                 _ if attr.path().is_ident("gsflags") => {
                     return Err(Error::new_spanned(
@@ -85,6 +74,14 @@ pub fn expand_get_set(
                 }
                 _ => {} // Not what we're looking for
             }
+        }
+
+        if !field_props.all_skip {
+            field_props.props.extend(
+                all_func_props
+                    .iter()
+                    .map(|ofpwk| ofpwk.clone().build_with_default_name(&field_ident)),
+            );
         }
 
         remove_attrs.into_iter().for_each(|i| {
