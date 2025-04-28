@@ -7,12 +7,7 @@ Procedural macro to automatically generate getters and setters for struct fields
 
 ## Features
 
-- Generate **getters** that return either **references** or **copies**, depending on your needs.
-- Automatically generate **setters** for fields.
-- Customize method names for getters and setters.
-- Choose to have a getter or setter be not inlined with `noinline`
-- Return proper compiler errors instead of panicking.
-- Lightweight and minimal dependencies.
+Syntactically efficient way of creating **getters** and/or **setters** with lots of customizability (see [Attributes](#attributes)). 
 
 ---
 
