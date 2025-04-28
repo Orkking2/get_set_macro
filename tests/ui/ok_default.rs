@@ -44,6 +44,6 @@ fn main() {
 
     assert_eq!(-128, *example.get_unflagged());
 
-    // The following would produce an error
+    // The following would produce an error, see fail_allsetting.rs
     // example.get_skipped();
 }
