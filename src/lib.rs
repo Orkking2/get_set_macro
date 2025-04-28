@@ -19,11 +19,11 @@
 //!     #[gsflags(skip)]
 //!     skipped: u8,
 //!
-//!     // Despite not having any `gsflags`, this field will recieve an inline(always) getter named `get_name`.
+//!     // Despite not having any `gsflags`, this field will recieve an #[inline(always)] getter named `get_name`.
 //!     name: String,
 //!     
 //!     // Since u32's are trivially copyable, there is no need to pass this value by reference and so instead passes it by value.
-//!     // This flag has also inhereted the default `inline_always`, so this `get_copy` will be inlined always.
+//!     // This flag has also inhereted the default `inline_always`, so this `get_copy` will be have the `#[inline(always)]` attribute.
 //!     #[gsflags(get_copy)]
 //!     age: u32,
 //! }
