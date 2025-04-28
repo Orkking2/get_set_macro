@@ -103,7 +103,6 @@ impl OptFuncProps {
 
     pub(crate) fn build_with_default_name(self, kind: Kind, field: &Ident) -> FuncProps {
         FuncProps {
-            kind,
             name: kind.into_ident(field),
             ..self.build(kind, field)
         }
