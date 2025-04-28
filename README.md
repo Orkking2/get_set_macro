@@ -71,9 +71,10 @@ fn main() {
 | `#[set]` | Generate a setter that sets a new value. |
 | `rename = "..."` | Customize the method name (e.g., `#[gsflags(get(rename = "fetch_{name}"))]`). |
 | `inline(\|_always\|_never)` | Choose to have a getter or setter inlined and how (e.g. `#[gsflags(get(inline_always, rename = "always_inlined_get"))]`). |
-| `#[set_get(`struct-wide settings`)]` | Applies get/set settings to all fields in the struct (ignores `rename`). |
+| `#[set_get(`struct-wide settings`)]` | Applies get/set settings to all fields in the struct (ignores `rename`). If `default` is used here, it will be the default to every `gsflags` attribute in the struct. |
 | `skip` | Skip `struct`-wide gs-settings for this field. |
 | `vis = "..."` | Change the visibility of generated getters/setters. |
+| `default(...)` | Applies get/set settings (except `rename`) to each getter/setter in this `gsflags` attribute |
 
 > **Note:** Only structs with **named fields** are currently supported.
 
