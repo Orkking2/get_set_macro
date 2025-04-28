@@ -1,28 +1,30 @@
 //! # get_set_macro
-//! 
+//!
 //! A procedural macro to generate customizable getters and setters for your Rust structs.
-//! 
+//!
 //! ## Installation
-//! 
+//!
 //! Run `cargo add get_set_macro`
-//! 
+//!
 //! ## Example Usage
 //!
 //! ```rust
 //! use get_set_macro::get_set;
 //!
 //! // By default, each field in `Example` will recieve a getter with the #[inline(always)] attribute.
-//! #[get_set(get(inline_always))]
+//! // Here the `default` is applied to the `get`, so the global get will be #[inline(always)].
+//! #[get_set(default(inline_always), get)]
 //! struct Example {
 //!     // This field will not recieve the default getter.
 //!     #[gsflags(skip)]
 //!     skipped: u8,
-//! 
+//!
 //!     // Despite not having any `gsflags`, this field will recieve an inline(always) getter named `get_name`.
 //!     name: String,
 //!     
 //!     // Since u32's are trivially copyable, there is no need to pass this value by reference and so instead passes it by value.
-//!     #[gsflag(get_copy)]
+//!     // This flag has also inhereted the default `inline_always`, so this `get_copy` will be inlined always.
+//!     #[gsflags(get_copy)]
 //!     age: u32,
 //! }
 //! ```

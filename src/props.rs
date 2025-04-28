@@ -80,6 +80,10 @@ impl OptFuncProps {
         }
     }
 
+    pub(crate) fn remove_name(self) -> Self {
+        Self { name: None, ..self }
+    }
+
     pub(crate) fn or(self, other: OptFuncProps) -> Self {
         Self {
             vis: self.vis.or(other.vis),
@@ -131,7 +135,8 @@ impl TryFrom<Meta> for OptFuncProps {
             Meta::Path(path)
                 if path.is_ident("inline")
                     || path.is_ident("inline_always")
-                    || path.is_ident("inline_never") =>
+                    || path.is_ident("inline_never")
+                    || path.is_ident("noinline") =>
             {
                 let inline = if path.is_ident("inline") {
                     Inline::Sometimes
@@ -139,6 +144,8 @@ impl TryFrom<Meta> for OptFuncProps {
                     Inline::Always
                 } else if path.is_ident("inline_never") {
                     Inline::Never
+                } else if path.is_ident("noinline") {
+                    Inline::None
                 } else {
                     unreachable!()
                 };

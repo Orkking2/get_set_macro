@@ -12,11 +12,17 @@ pub fn expand_get_set(
     mut input: ItemStruct,
 ) -> Result<TokenStream> {
     let mut all_func_props = Vec::new();
+    let mut all_default_func_props = OptFuncProps::new();
 
     if let Some(gs_attrs) = gs_attrs {
-        for gs_flag in gs_attrs {
+        all_default_func_props = extract_default_func_props(&gs_attrs)?;
+
+        for gs_flag in gs_attrs
+            .into_iter()
+            .filter(|gs_flag| !gs_flag.path().is_ident("default"))
+        {
             all_func_props.push(OptFuncPropsWithKind {
-                optfuncprops: extract_opt_func_props(&gs_flag)?,
+                optfuncprops: extract_opt_func_props(&gs_flag)?.or(all_default_func_props.clone()),
                 kind: gs_flag.try_into()?,
             })
         }
@@ -51,9 +57,16 @@ pub fn expand_get_set(
                 syn::Meta::List(ref gs_flags) if gs_flags.path.is_ident("gsflags") => {
                     remove_attrs.push(i);
 
+                    let gs_flags = gs_flags
+                        .parse_args_with(Punctuated::<Meta, Token![,]>::parse_terminated)?;
+
+                    let default_func_props =
+                        extract_default_func_props(&gs_flags)?.or(all_default_func_props.clone());
+
                     // [get, set, get_copy(rename = "draft", inline_never, vis = "pub(crate)")]
-                    for gs_flag in
-                        gs_flags.parse_args_with(Punctuated::<Meta, Token![,]>::parse_terminated)?
+                    for gs_flag in gs_flags
+                        .into_iter()
+                        .filter(|gs_flag| !gs_flag.path().is_ident("default"))
                     {
                         if gs_flag.path().is_ident("skip") {
                             field_props.all_skip = true;
@@ -62,6 +75,7 @@ pub fn expand_get_set(
 
                         field_props.props.insert(
                             extract_opt_func_props(&gs_flag)?
+                                .or(default_func_props.clone())
                                 .build(gs_flag.try_into()?, &field_ident),
                         );
                     }
@@ -163,9 +177,21 @@ fn extract_opt_func_props(gs_flag: &Meta) -> Result<OptFuncProps> {
         for setting in
             gs_flag_settings.parse_args_with(Punctuated::<Meta, Token![,]>::parse_terminated)?
         {
-            opt_func_props = opt_func_props.or(setting.try_into()?)
+            // The latest setting overrides previous settings (allowing for defaults to be overriden)
+            opt_func_props = <Meta as TryInto<OptFuncProps>>::try_into(setting)?.or(opt_func_props)
         }
     }
 
     Ok(opt_func_props)
+}
+
+fn extract_default_func_props(gs_flags: &Punctuated<Meta, Token![,]>) -> Result<OptFuncProps> {
+    Ok(gs_flags
+        .iter()
+        .filter(|&gs_flag| gs_flag.path().is_ident("default"))
+        .last()
+        .map(extract_opt_func_props)
+        .transpose()?
+        .unwrap_or_default()
+        .remove_name())
 }
