@@ -32,7 +32,7 @@ use get_set_macro::get_set;
 
 Apply it to a struct: (see [`tests/ui/ok_readme.rs`](./tests/ui/ok_readme.rs))
 ```rust
-#[get_set]
+#[get_set(default(vis = "pub"))]
 struct Example {
     #[gsflag(get)]
     name: String,
@@ -73,6 +73,7 @@ fn main() {
 | `inline(\|_always\|_never)` | Choose to have a getter or setter inlined and how (e.g. `#[gsflags(get(inline_always, rename = "always_inlined_get"))]`). |
 | `#[set_get(`struct-wide settings`)]` | Applies get/set settings to all fields in the struct (ignores `rename`). |
 | `skip` | Skip `struct`-wide gs-settings for this field. |
+| `vis = "..."` | Change the visibility of generated getters/setters. |
 
 > **Note:** Only structs with **named fields** are currently supported.
 

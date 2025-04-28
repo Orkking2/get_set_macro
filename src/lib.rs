@@ -13,7 +13,7 @@
 //!
 //! // By default, each field in `Example` will recieve a getter with the #[inline(always)] attribute.
 //! // Here the `default` is applied to the `get`, so the global get will be #[inline(always)].
-//! #[get_set(default(inline_always), get)]
+//! #[get_set(default(inline_always, vis = "pub"), get)]
 //! struct Example {
 //!     // This field will not recieve the default getter.
 //!     #[gsflags(skip)]
