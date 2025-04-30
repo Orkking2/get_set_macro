@@ -19,13 +19,40 @@
 //!     #[gsflags(skip)]
 //!     skipped: u8,
 //!
-//!     // Despite not having any `gsflags`, this field will recieve an #[inline(always)] getter named `get_name`.
+//!     // Despite only having the `set` flag, this member will recieve both a getter and a setter,
+//!     // each with pub visibility and each being #[inline(always)]
+//!     #[gsflags(set)]
 //!     name: String,
 //!     
-//!     // Since u32's are trivially copyable, there is no need to pass this value by reference and so instead passes it by value.
-//!     // This flag has also inhereted the default `inline_always`, so this `get_copy` will be have the `#[inline(always)]` attribute.
+//!     // Since u32's are trivially copyable, 
+//!     // there is no need to pass this value by reference and so instead we will pass it by value.
+//!     // This flag has also inhereted the default `inline_always`, so this `get_copy` will be #[inline(always)].
+//!     // If we wanted to override the defaults, adding `default(noinline, vis = "")` anywhere 
+//!     // in the gsflags body would change the defaults to having no inline attribute and inherited (private) visibility.
+//!     // If we didn't want this to override the default get(_ref), we could change 
+//!     // `get_copy` to `get_copy(rename = "get_age_copy")`,
+//!     // which would simply create a new method that returned a copy.
 //!     #[gsflags(get_copy)]
 //!     age: u32,
+//! }
+//! 
+//! // Has functionality
+//! fn main() {
+//!     let mut example = Example {
+//!         skipped: 8,
+//!         name: "ExampleName".to_string(),
+//!         age: 69,
+//!     };
+//! 
+//!     // The following would error as there is no method named `get_skipped`
+//!     // assert_eq!(8, example.get_skipped());
+//! 
+//!     // The getters and setters of `name`
+//!     assert_eq!("ExampleName".to_string(), *example.get_name());
+//!     example.set_name("NewName".to_string());
+//!     assert_eq!("NewName".to_string(), *example.get_name());
+//! 
+//!     assert_eq!(69, example.get_age());
 //! }
 //! ```
 //!
