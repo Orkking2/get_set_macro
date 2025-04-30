@@ -20,7 +20,7 @@ struct Example {
     skipped: f32,
 
     // Removes the `inline_always` default, get (`city_ref`) is #[inline(never)] while `set_city` has no inline attribute (because of the new default)
-    #[gsflags(default(noinline), get(inline_never, rename = "city_ref"), set(rename = "set_city" /* same as default */))]
+    #[gsflags(default(noinline, vis = ""), get(inline_never, rename = "city_ref"), set(rename = "set_city" /* same as default */))]
     city: String,
 }
 
